@@ -14,10 +14,10 @@ const Clima = () => {
         setClima(result)}
         handleCityClima()
         console.log(name);
-        console.log(clima);
-    }, [])
+        // console.log(clima);
+    }, [name])
 
-    
+
     return (
         <div>
             {clima && <CardClima name={clima?.name} temperatura={clima?.main.temp} clim={clima?.weather[0].main}/>}
