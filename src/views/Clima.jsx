@@ -17,6 +17,7 @@ const Clima = () => {
         console.log(clima);
     }, [])
 
+    
     return (
         <div>
             {clima && <CardClima name={clima?.name} temperatura={clima?.main.temp} clim={clima?.weather[0].main}/>}
