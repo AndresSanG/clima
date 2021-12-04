@@ -3,7 +3,7 @@ import {BrowserRouter,Switch,Route} from "react-router-dom";
 
 // VIEWS
 import Home from "./views/Home/Home.jsx";
-import About from "./views/About";
+import Clima from "./views/Clima";
 
 //styles
 import './App.css';
@@ -15,8 +15,8 @@ function App() {
       <Route path="/" exact> 
         <Home/>
       </Route>
-      <Route path="/about" exact>
-        <About/>
+      <Route path="/clima:name" exact>
+        <Clima/>
       </Route>
       <Route path="*">
         <h2>Not Found</h2>

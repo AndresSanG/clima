@@ -13,3 +13,4 @@ const WheaterForm = ({handleCity,handleSearchWeather}) => {
 }
 
 export default WheaterForm
+        

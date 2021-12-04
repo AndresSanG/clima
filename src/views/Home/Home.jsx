@@ -2,9 +2,9 @@ import React,{ useState} from 'react'
 
 //COMPOETS
 import WheaterForm from "../../components/Home/Form/WheaterForm"
-import CityInformtion from "../../components/Home/CityInformation/CityInformtion"
+import CityInformation from "../../components/Home/CityInformation/CityInformation"
 import Loader from "../../components/Loader"
-// import NotFound from "../../components/NotFound"
+import NotFound from "../../components/NotFound"
 
 
 //VIEWS
@@ -12,8 +12,9 @@ import Loader from "../../components/Loader"
 const Home = () => {
     //STATE
 const [cityName, setCityName] = useState("");
-const [loder, setLoader]= useState(false);
+const [loader, setLoader]= useState(false);
 const [cityInformtion, setCityInformtion]= useState(null);
+const [error, setError] = useState(false);
 
     //FUNCIONES
     const handleCity = ({value}) => {
@@ -25,23 +26,32 @@ const [cityInformtion, setCityInformtion]= useState(null);
         e.preventDefault();
         setCityInformtion(null)
         setLoader(true)
-        const API=`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=ccfc9a4cf60f882d66041de10b03e107`
-        const response = await fetch(API)
-        const result = await response.json()
-        setCityInformtion(result)
-        console.log(result)
+        setError(false)
+        try {
+            const API=`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=ccfc9a4cf60f882d66041de10b03e107`
+            const response = await fetch(API)
+            const result = await response.json()
+            setCityInformtion(result)
+            console.log(result)
+            if(result.cod!==200){
+                setError(true);
+
+            };
+        } catch (error) {
+            setError(true);
+        }        
         setLoader(false)
     };
-
 
     return (
         <div>
             <h2>Home</h2>
+            {error && <NotFound/>}
             <WheaterForm 
             handleCity={handleCity}
             handleSearchWeather={handleSearchWeather}/>
-            {loder? <Loader/> : null}
-            {cityInformtion ? <CityInformtion name={cityInformtion.name} clima={cityInformtion.weather.main} /> : null}
+            {loader? <Loader/> : null}
+            {cityInformtion && cityInformtion.cod===200? <CityInformation name={cityInformtion.name} temp={cityInformtion.main.temp} /> : null}
         </div>
     )
 }
